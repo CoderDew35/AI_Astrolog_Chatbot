@@ -1,1 +1,1 @@
-Vercel link:   https://ai-chat-bot-lovat-ten.vercel.app/
+Vercel Link:   https://ai-astrolog-chatbot.vercel.app/
