@@ -9,4 +9,5 @@ export interface ChatState {
   addMessage: (message: Message) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  clearHistory: () => void;
 }

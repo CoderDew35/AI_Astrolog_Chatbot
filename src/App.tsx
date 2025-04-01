@@ -3,10 +3,10 @@ import { ChatInput } from './components/ChatInput';
 import { useChatStore } from './store/chat';
 import { useThemeStore } from './store/theme';
 import { getChatCompletion } from './lib/openai_client';
-import { MessageSquare, Sun, Moon } from 'lucide-react';
+import { MessageSquare, Sun, Moon, Trash2 } from 'lucide-react';
 
 function App() {
-  const { messages, isLoading, error, addMessage, setLoading, setError } = useChatStore();
+  const { messages, isLoading, error, addMessage, setLoading, setError, clearHistory } = useChatStore();
   const { isDark, toggleTheme } = useThemeStore();
 
   const handleSendMessage = async (input: string) => {
@@ -54,9 +54,24 @@ function App() {
           <MessageSquare className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-500'}`} />
           <h1 className="text-xl font-semibold">AI Astrolog</h1>
         </div>
-        <button onClick={toggleTheme} className={`p-2 rounded-lg ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
-          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
+        <div className="flex gap-2">
+          {messages.length > 0 && (
+            <button 
+              onClick={clearHistory} 
+              className={`p-2 rounded-lg ${isDark ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-600'}`}
+              title="Clear chat history"
+            >
+              <Trash2 className="w-5 h-5" />
+            </button>
+          )}
+          <button 
+            onClick={toggleTheme} 
+            className={`p-2 rounded-lg ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+        </div>
       </header>
 
       <main className="flex-1 overflow-y-auto p-4">
