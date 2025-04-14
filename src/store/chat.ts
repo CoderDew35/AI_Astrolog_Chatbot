@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { ChatState } from '../types/chat';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { ChatState, Message } from '../types/chat';
 
 export const useChatStore = create<ChatState>()(
   persist(
@@ -8,15 +8,31 @@ export const useChatStore = create<ChatState>()(
       messages: [],
       isLoading: false,
       error: null,
-      addMessage: (message) => 
+      
+      // Actions
+      addMessage: (message: Message) => 
         set((state) => ({ messages: [...state.messages, message] })),
-      setLoading: (loading) => set({ isLoading: loading }),
-      setError: (error) => set({ error }),
-      clearHistory: () => set({ messages: [] }),
+      
+      setLoading: (loading: boolean) => 
+        set({ isLoading: loading }),
+      
+      setError: (error: string | null) => 
+        set({ error }),
+      
+      clearHistory: () => 
+        set({ messages: [] }),
+        
+      // New action that combines multiple updates
+      sendMessage: (userMessage: Message, assistantMessage: Message) =>
+        set((state) => ({ 
+          messages: [...state.messages, userMessage, assistantMessage],
+          isLoading: false,
+          error: null
+        })),
     }),
     {
       name: 'chat-history-storage',
-      // Only persist messages, not loading state or errors
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ messages: state.messages }),
     }
   )

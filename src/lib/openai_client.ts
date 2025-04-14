@@ -6,12 +6,30 @@ const client = new OpenAI({
   dangerouslyAllowBrowser: true
 });
 
-export async function getChatCompletion(messages: Message[]) {
+interface ChatCompletionOptions {
+  model?: string;
+  temperature?: number;
+}
+
+/**
+ * Gets a chat completion from OpenAI
+ */
+export async function getChatCompletion(
+  messages: Message[], 
+  options: ChatCompletionOptions = {}
+): Promise<string> {
   try {
+    const { 
+      model = 'gpt-4-turbo', 
+      temperature = 0.7 
+    } = options;
+    
     const completion = await client.chat.completions.create({
-      model: 'gpt-4-turbo', // Change this to your preferred model if needed
+      model,
       messages,
+      temperature,
     });
+    
     return completion.choices[0].message.content || '';
   } catch (error) {
     console.error('Error getting chat completion:', error);
