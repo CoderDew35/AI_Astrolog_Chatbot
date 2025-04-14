@@ -42,7 +42,7 @@ export async function fetchDailyHoroscope(sign: ZodiacSign): Promise<HoroscopeAp
       day: 'TODAY' 
     });
     
-    const response = await fetch(`http://185.23.72.79:8008/horoscope/daily/?${params.toString()}`);
+    const response = await fetch(`https://sebnemkosker.com/fortune-api/horoscope/daily/?${params.toString()}`);
     
     if (!response.ok) {
       throw new Error(`API request failed with status: ${response.status}`);
@@ -64,7 +64,7 @@ export async function fetchDailyHoroscope(sign: ZodiacSign): Promise<HoroscopeAp
 
 export async function fetchQuotes(): Promise<Quote[]> {
   try {
-    const response = await fetch(`http://185.23.72.79:8008/quotes/`);
+    const response = await fetch(`https://sebnemkosker.com/fortune-api/quotes/`);
     
     if (!response.ok) {
       throw new Error(`API request failed with status: ${response.status}`);
@@ -83,7 +83,7 @@ export async function fetchQuotes(): Promise<Quote[]> {
  */
 export async function fetchNatalChart(data: NatalChartRequest): Promise<NatalChartResponse> {
   try {
-    const response = await fetch('http://185.23.72.79:8008/natal-chart/', {
+    const response = await fetch('https://sebnemkosker.com/fortune-api/natal-chart/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
