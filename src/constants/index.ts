@@ -6,7 +6,7 @@ export const ZODIAC_SIGNS = [
 export type ZodiacSign = typeof ZODIAC_SIGNS[number];
 
 export const API_ENDPOINTS = {
-  HOROSCOPE: 'http://185.23.72.79:8008/horoscope/daily'
+  HOROSCOPE: 'https://sebnemkosker.com/fortune-api/horoscope/daily'
 };
 
 export const SYSTEM_MESSAGE = {

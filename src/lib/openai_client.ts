@@ -1,40 +1,38 @@
-import OpenAI from 'openai';
 import { Message } from '../types/chat';
+import axios from 'axios';
 
-const client = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-});
+const API_BASE_URL = 'http://localhost:5001/api/chat';
 
-interface ChatCompletionOptions {
-  model?: string;
-  temperature?: number;
-}
 
 /**
- * Gets a chat completion from OpenAI
+ * Gets a chat completion from the backend server
  */
 export async function getChatCompletion(
   messages: Message[], 
-  options: ChatCompletionOptions = {}
 ): Promise<string> {
   try {
-    const { 
-      model = 'gpt-4-turbo', 
-      temperature = 0.7 
-    } = options;
     
-    const completion = await client.chat.completions.create({
-      model,
-      messages,
-      temperature,
+    
+    // Send request to our backend
+    const response = await axios.post(`${API_BASE_URL}/completions`, {
+      messages
     });
     
-    return completion.choices[0].message.content || '';
+    // Return the assistant's response
+    return response.data.content || '';
   } catch (error) {
     console.error('Error getting chat completion:', error);
+    
+    // Extract error message from API response if available
+    if (axios.isAxiosError(error) && error.response) {
+      const errorMessage = error.response.data?.error?.message || error.message;
+      throw new Error(errorMessage);
+    }
+    
     throw new Error(
-      error instanceof Error ? error.message : 'Failed to get response from OpenAI'
+      error instanceof Error ? error.message : 'Failed to get response from server'
     );
   }
 }
+
+

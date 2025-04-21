@@ -28,7 +28,7 @@ export function useChat() {
       addMessage(userMessage);
 
       // Prepare message history including system message
-      const conversationForAPI = [SYSTEM_MESSAGE, ...messages, userMessage];
+      const conversationForAPI = [SYSTEM_MESSAGE, userMessage];
       
       // Set loading state
       setLoading(true);
