@@ -1,7 +1,7 @@
 import { Message } from '../types/chat';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5001/api/chat';
+const API_BASE_URL = 'https://sebnemkosker.com/customgpt/api/chat';
 
 
 /**
